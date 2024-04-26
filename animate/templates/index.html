@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- add a big banner to welcome user -->
+<div class="jumbotron jumbotron-fluid card card-image" style="background-size: cover; background-image: url({{url_for('static', filename='img/wallpp1.jpg')}});">
+    <div class="text-white text-center py-5 px-4">
+        <div>
+            <h1 class="display-2">Animate.au へようこそ</h1>
+            <p class="display-4">フィギュア、Figma、ねんどろいどワールド</p>
+            <p class="display-6">Figure, Figma, and Nendoroids Heaven</p>
+        </div>
+    </div>
+</div>
+<div id="carouselExample" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{url_for('static', filename='img/banner01.jpg')}}" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="{{url_for('static', filename='img/banner02.jpg')}}" alt="Image 2" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="{{url_for('static', filename='img/banner03.jpg')}}" alt="Image 3" class="d-block w-100">
+        </div>
+    </div>
+    <!-- Previous and Next Buttons -->
+    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block main %}
+<section>
+    <div class="container">
+        <div class="text-white text-center">
+            <div>
+                <p class="h1 mb-4" style="color: #ff8d1e;">Why should you buy product from us?</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <article>
+                    <h2 style="font-weight: bold; color: red;">100% authentic from Japan</h2>
+                    <p>All the product is import straight from Japan</p>
+                    <ul class="text-align: center; list-style-position: inside;">
+                        <li>100 % Real </li>
+                        <li>No counter fit</li>
+                        <li>30 days return policy</li>
+                        <li>24/7 support</li>
+                    </ul>
+                </article>
+
+            </div>
+            <div class="col-md-4 text-center">
+                <article>
+                    <h2 style="font-weight: bold; color: red;">Best price guaranteed</h2>
+                    <p>Product always available</p>
+                    <p>Discount all year (very 2 weeks)</p>
+                    <p>Click <a href="discounts.html">here</a> for more information.</p>
+                </article>
+            </div>
+            <div class="col-md-4 text-center">
+                <article >
+                    <h2 style="font-weight: bold; color: red;">Get Notified</h2>
+                    <p>Subscribe to our newsletter to recieve info about our newest products.</p>
+                      <form>
+                        <div class="form-group row">
+                          <label for="inputName" class="col-sm-2 col-form-label" style="margin-bottom: 10px;">Name</label>
+                          <div class="col-sm-10">
+                            <input type="name" class="form-control" id="inputName" placeholder="Jonh Smith">
+                          </div>
+                          <label for="inputPhone" class="col-sm-2 col-form-label" style="margin-bottom: 10px;">Phone</label>
+                          <div class="col-sm-10">
+                            <input type="phone" class="form-control" id="inputPhone" placeholder="0400-000-000">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-sm-10 offset-sm-2">
+                            <button type="button" class="btn btn-custom mr-4" data-toggle="modal" data-target="#categoryModal1">
+                                Subscribe Now
+                             </button>
+                             <div class="modal fade" id="categoryModal1" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog modal-dialog-centered" role="document">
+                                     <div class="modal-content">
+                                         <div class="modal-header">
+                                             <h5 class="modal-title" id="categoryModalLabel">Subscribe to get newsletter?</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                         </div>
+                                         <div class="modal-body">
+                                             Are you sure you want to subscribe?
+                                         </div>
+                                         <div class="modal-footer">
+                                            <a class="btn btn-secondary" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUXbmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXA%3D" target="_blank">No</a>
+                                             <a href="{{ url_for('main.sub') }}" class="btn btn-custom">Yes!! Please</a>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                          </div>
+                        </div>
+                      </form>
+                </article>
+            </div>
+        </div>
+        <hr>
+    </div>
+</section>
+
+<section>
+    <div class="text-dark text-center">
+        <div>
+            <p id ="product_anchor" class="h3 text-dark mb-4" style="color: #ff8d1e !important; font-weight: bold; margin-top: 20px;">Choose from a wide range of category!!!</p>
+        </div>
+    </div>
+    <div class="card-deck product_anchor">
+
+        {% for cate in cates %}
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/'+cate.image) }}" alt="Card image" style="height: 400px;">
+            <div class="card-body">
+                <h4 class="card-title text-center">{{ cate.name }}</h4>
+                <p class="card-text">{{ cate.description }}</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center">
+                    <a href="{{ url_for('main.catedetail', cateid=cate.id) }}" class="btn btn-custom">Go to Category</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- display tours for the specific city -->
+<section>
+
+    <div class="text-dark text-center">
+        <div>
+            <p class="h3 text-dark mb-4" style="color: #ff8d1e !important; font-weight: bold; margin-top: 20px;">Product Details</p>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        
+    </style>
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-container">
+                    <img class="product-image" src="{{ url_for('static', filename='img/' + product.image) }}" alt="Product Image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="product-container">
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    <p class="product-description">{{ product.description }}</p>
+                    <p class="product-price">Price: $ {{ product.price }} AUD</p>
+                    <p class="product-release-date">Released on: {{ product.date.strftime("%d/%m/%Y") }}</p>
+                    <div class="d-flex">
+                        <form action="{{ url_for('main.order') }}">
+                            <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+                            <input class="btn btn-custom" type="submit" value="Add to Cart">
+                        </form>
+                        <button type="button" class="btn btn-custom ml-auto" data-toggle="modal" data-target="#categoryModal">
+                            Back to Category
+                        </button>
+                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="categoryModalLabel">Return to Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to return to the category page?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                        <a href="{{ url_for('main.catedetail', cateid=product.cate_id) }}" class="btn btn-custom">Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+         </div>
+    </div>
+ </div>
+    
+
+</section>
+{% endblock %}
+

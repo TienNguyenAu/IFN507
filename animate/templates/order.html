@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- display contents of user basket -->
+<section>  
+    <div class="container">
+        <div class="row co-12 d-flex mt-2 mb-2" style="color: #ff8d1e !important; font-weight: bold; margin-top: 20px;">
+            <h3>Shopping Cart</h3>
+        </div>
+        <!-- each tour on seperate row -->
+        {% for product in order.prods %}
+            <div class="row shadow-md my-row mb-3">
+                <div class="col-sm-10 card">
+                    <h5 class="card-header">{{ product.date.strftime("%d/%m/%Y") }} : {{ product.Cate.name }} {{ product.name }}</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <img class="img-thumbnail" src="{{ url_for('static', filename=('img/' +product.image)) }}">
+                            </div>
+                            <div class="col-10">
+                                <!-- Item Description -->
+                                <p class="card-text">{{ product.description }}</p>   
+                            </div>  
+                        </div>                      
+                    </div>
+                </div>
+                <br><br>
+                <!-- right column has price and delete button -->
+                <div class="col-sm-2">
+                    <h5>{{ "$%.2f"|format(product.price) }}</h5>
+                        <button type="button" class="btn btn-custom mb-4" data-toggle="modal" data-target="#deleteModal">
+                            Delete
+                        </button>
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <form method="POST" action="{{url_for('main.deleteorderitem')}}">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this item?</p>
+                                            <input type="hidden" id="id" name="id" value="{{product.id}}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" value="Delete" class="btn btn-custom">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+        <!-- total price and page controls -->
+        <section>
+            <div class="row co-12 d-flex">
+                <h5 class="mt-4">Quote = {{ "$%.2f"|format(total_price) }}</h5>
+            </div>
+        
+            <div class="row co-12 d-flex mt-2 mb-4">
+                <button type="button" class="btn btn-custom mr-4" data-toggle="modal" data-target="#categoryModal">
+                    Continue shopping
+                 </button>
+                 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-dialog-centered" role="document">
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                 <h5 class="modal-title" id="categoryModalLabel">Continue shopping?</h5>
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                     <span aria-hidden="true">&times;</span>
+                                 </button>
+                             </div>
+                             <div class="modal-body">
+                                 Are you sure you want to shopping more?
+                             </div>
+                             <div class="modal-footer">                         
+                                <div class="container ml-auto">
+                                    <a href="{{ url_for('main.catedetail', cateid=1) }}" class="btn btn-custom ml-auto btn-block mb-4">Figurines</a>
+                                    <a href="{{ url_for('main.catedetail', cateid=2) }}" class="btn btn-custom ml-auto btn-block mb-4">Figmas</a>
+                                    <a href="{{ url_for('main.catedetail', cateid=3) }}" class="btn btn-custom ml-auto btn-block mb-4">Nendoroids</a>
+                                    <a href="{{ url_for('main.index', _anchor='product_anchor') }}" class="btn btn-custom btn-block mr-4">To home page</a>
+                                    <button type="button" class="btn btn-primary btn-block mr-4" data-dismiss="modal">Close</button>
+                                </div>                                
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                <a href="{{ url_for('main.checkout') }}" class="btn btn-custom mr-4">Proceed to Checkout</a>
+                <button type="button" class="btn btn-custom mr-4" data-toggle="modal" data-target="#categoryModal1">
+                   Delete all products
+                </button>
+                <div class="modal fade" id="categoryModal1" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="categoryModalLabel">Delete all?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete all product and go to home page?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                <a href="{{ url_for('main.deleteorder') }}" class="btn btn-custom">Delete and return</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

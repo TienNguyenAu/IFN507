@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- display tours for the specific city -->
+<section>
+
+    <div class="text-dark text-center">
+        <div>
+            <p class="h3 text-dark mb-4" style="color: #ff8d1e !important; font-weight: bold; margin-top: 20px;">Choose your Favorite product now</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for product in prods %}
+            <div class="col-md-4" style="margin-bottom: 20px !important;">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/' + product.image) }}" alt="Card image" style="height: 300px;">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">{{ product.name }}</h4>
+                        <p class="card-text">{{ product.price }}</p>
+                        <div class="d-flex justify-content-between mt-auto">
+                            <form action="{{ url_for('main.order') }}">
+                                <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+                                <input class="btn btn-custom" type="submit" value="Add to Cart">
+                            </form>
+                            <form action="{{ url_for('main.productdetail', productid=product.id) }}" method="GET">
+                                <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+                                <input class="btn btn-custom" type="submit" value="Product detail">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if loop.index % 3 == 0 %}
+        </div>
+        <div class="row">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>   
+</section>
+{% endblock %}
+
